@@ -1,11 +1,6 @@
 # Philharmonie Ticket Notifier
-# this project is a data extraction tool for the Philharmonie de Paris website to be notified by email if tickets for a concert are available.
 ## Overview
-This project is designed to help users monitor ticket availability for concerts at the Philharmonie de Paris. By scraping the website for specific concert information, users will receive email notifications when tickets become available.
-## Features
-- Web scraping to check ticket availability
-- Email notifications for ticket availability
-- Configurable concert ID and email settings
+This script send email notifications when tickets for a specified concert at the Philharmonie de Paris become available. It uses Selenium to automate browser interactions and BeautifulSoup to parse HTML content.
 ## Requirements
 - Python >= 3.12
 - beautifulsoup4 >= 4.12.2
@@ -16,10 +11,6 @@ This project is designed to help users monitor ticket availability for concerts 
     ```bash
     git clone https://github.com/Lynux2142/philharmonie-ticket-notifier.git
     cd philharmonie-ticket-notifier
-    ```
-2. Install the required packages:
-    ```bash
-    uv sync
     ```
 ## Configuration
 1. Create a `.env` file in the project root directory with the following content:
@@ -38,6 +29,10 @@ This project is designed to help users monitor ticket availability for concerts 
     - Start a Selenium WebDriver server (e.g., using Docker):
         ```bash
         docker run -d -p 4444:4444 --name selenium-firefox selenium/standalone-chrome
+        ```
+    - Install the required packages:
+        ```bash
+        uv sync
         ```
     - Run the script:
         ```bash
