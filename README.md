@@ -19,7 +19,7 @@ This project is designed to help users monitor ticket availability for concerts 
     ```
 2. Install the required packages:
     ```bash
-    uv sync --update
+    uv sync
     ```
 ## Configuration
 1. Create a `.env` file in the project root directory with the following content:
