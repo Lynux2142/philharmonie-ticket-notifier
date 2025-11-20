@@ -1,0 +1,11 @@
+[project]
+name = "philharmonie-ticket-notifier"
+version = "1.0.0"
+description = "A data extraction tool from the Philharmonie de Paris website to be notified by email if tickets for a concert are available."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.14.2",
+    "python-dotenv>=1.2.1",
+    "selenium>=4.38.0",
+]
