@@ -12,7 +12,7 @@ import logging
 
 load_dotenv()
 
-URL = "https://billetterie.philharmoniedeparis.fr/content#"
+URL = "https://billetterie.philharmoniedeparis.fr/list/events"
 EMAIL_PASSWORD = getenv("EMAIL_PASSWORD")
 TICKET_ID = getenv("TICKET_ID")
 NOTIFY_EMAIL = getenv("NOTIFY_EMAIL")
@@ -68,7 +68,7 @@ def main():
     try:
         logger.info("Waiting for element to be present ...")
         element = EC.presence_of_element_located(
-            (By.CLASS_NAME, f"stx-ProductCard-{ticket_id}")
+            (By.ID, f"prod_{ticket_id}")
         )
         WebDriverWait(driver, 5).until(element)
         logger.info("Element found")
@@ -79,10 +79,10 @@ def main():
     soup = BeautifulSoup(driver.page_source, "html.parser")
     logger.info("Page source parsed")
     logger.info("Checking for ticket availability ...")
-    element = soup.find(class_=f"stx-ProductCard-{ticket_id}")
-    sold_out_status = element.find(id=ticket_id).find("span").text.strip() == "Sold Out"
-    logger.info(f"Ticket status: {'Available' if not sold_out_status else 'Unavailable'}")
-    if not sold_out_status:
+    element = soup.find(id=f"prod_{ticket_id}")
+    is_available = element.find(id=f"product_{ticket_id}_book") is not None
+    logger.info(f"Ticket status: {'Available' if not is_available else 'Unavailable'}")
+    if is_available:
         logger.info("Sending notification email ...")
         send_email(
             subject="Tickets Available!",
