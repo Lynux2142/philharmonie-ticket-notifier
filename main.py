@@ -16,6 +16,7 @@ URL = "https://billetterie.philharmoniedeparis.fr/content#"
 EMAIL_PASSWORD = getenv("EMAIL_PASSWORD")
 TICKET_ID = getenv("TICKET_ID")
 NOTIFY_EMAIL = getenv("NOTIFY_EMAIL")
+REMOTE_WEB_DRIVER = getenv("REMOTE_WEB_DRIVER", "false").lower() == "true"
 SELENIUM_URL = getenv("SELENIUM_URL")
 
 logger = logging.getLogger(__name__)
@@ -50,11 +51,16 @@ def send_email(subject, body, to_email):
 
 def main():
     ticket_id = TICKET_ID
+    options = webdriver.FirefoxOptions()
+    options.add_argument("--headless")
     logger.info("Connection to Firefox Webdriver")
-    driver = webdriver.Remote(
-        command_executor=SELENIUM_URL,
-        options=webdriver.FirefoxOptions(),
-    )
+    if REMOTE_WEB_DRIVER:
+        driver = webdriver.Remote(
+            command_executor=SELENIUM_URL,
+            options=options,
+        )
+    else:
+        driver = webdriver.Firefox(options=options)
     logger.info("Firefox Webdriver initialized")
     logger.info("Loading page ...")
     driver.get(URL)

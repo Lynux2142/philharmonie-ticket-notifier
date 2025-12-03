@@ -23,6 +23,7 @@ This script send email notifications when tickets for a specified concert at the
 - `TICKET_ID`: The ID of the concert you want to monitor.
 - `EMAIL_PASSWORD`: The password for the email account used to send notifications (preferably an app password).
 - `NOTIFY_EMAIL`: Comma-separated list of email addresses to notify.
+- `REMOTE_WEB_DRIVER`: Set to `true` to use a remote Selenium WebDriver server (default `false`).
 - `SELENIUM_URL`: The URL of the Selenium WebDriver server.
 ## Usage
 1. From the python script:
