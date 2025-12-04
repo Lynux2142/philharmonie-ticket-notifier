@@ -18,6 +18,7 @@ TICKET_ID = getenv("TICKET_ID")
 NOTIFY_EMAIL = getenv("NOTIFY_EMAIL")
 REMOTE_WEB_DRIVER = getenv("REMOTE_WEB_DRIVER", "false").lower() == "true"
 SELENIUM_URL = getenv("SELENIUM_URL")
+WAIT_ELEMENT_TIMEOUT = int(getenv("WAIT_ELEMENT_TIMEOUT", "5"))
 
 logger = logging.getLogger(__name__)
 formatter = logging.Formatter(
@@ -70,7 +71,7 @@ def main():
         element = EC.presence_of_element_located(
             (By.ID, f"prod_{ticket_id}")
         )
-        WebDriverWait(driver, 5).until(element)
+        WebDriverWait(driver, WAIT_ELEMENT_TIMEOUT).until(element)
         logger.info("Element found")
     except TimeoutException:
         print("Loading took too much time!")
