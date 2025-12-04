@@ -25,6 +25,7 @@ This script send email notifications when tickets for a specified concert at the
 - `NOTIFY_EMAIL`: Comma-separated list of email addresses to notify.
 - `REMOTE_WEB_DRIVER`: Set to `true` to use a remote Selenium WebDriver server (default `false`).
 - `SELENIUM_URL`: The URL of the Selenium WebDriver server.
+- `WAIT_ELEMENT_TIMEOUT`: Timeout in seconds for waiting for elements to load (default `5`).
 ## Usage
 1. From the python script:
     - Start a Selenium WebDriver server (e.g., using Docker):
