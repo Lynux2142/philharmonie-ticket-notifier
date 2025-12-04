@@ -74,7 +74,7 @@ def main():
         WebDriverWait(driver, WAIT_ELEMENT_TIMEOUT).until(element)
         logger.info("Element found")
     except TimeoutException:
-        print("Loading took too much time!")
+        logger.error("Loading took too much time!")
 
     logger.info("Parsing page source ...")
     soup = BeautifulSoup(driver.page_source, "html.parser")
