@@ -13,8 +13,14 @@ import logging
 load_dotenv()
 
 URLs = [
-    "https://billetterie.philharmoniedeparis.fr/list/events",
-    "https://bourseauxbillets.philharmoniedeparis.fr/list/events",
+    (
+        "https://billetterie.philharmoniedeparis.fr/list/events",
+        "https://billetterie.philharmoniedeparis.fr/selection/event/date?productId={}",
+    ),
+    (
+        "https://bourseauxbillets.philharmoniedeparis.fr/list/events",
+        "https://bourseauxbillets.philharmoniedeparis.fr/selection/resale/item?performanceId={}",
+    ),
 ]
 EMAIL_PASSWORD = getenv("EMAIL_PASSWORD")
 TICKET_ID = getenv("TICKET_ID")
@@ -68,8 +74,8 @@ def main():
     logger.info("Firefox Webdriver initialized")
     is_available = False
     for url in URLs:
-        logger.info("Loading page {}".format(url))
-        driver.get(url)
+        logger.info("Loading page {}".format(url[0]))
+        driver.get(url[0])
         logger.info("Page loaded")
         try:
             logger.info("Waiting for element to be present ...")
@@ -93,7 +99,7 @@ def main():
             logger.info("Sending notification email to: {}".format(NOTIFY_EMAIL))
             send_email(
                 subject="Tickets Available!",
-                body=f"Tickets are now available at https://billetterie.philharmoniedeparis.fr/selection/event/date?productId={ticket_id}",
+                body=f"Tickets are now available at {url[1].format(ticket_id)}",
                 to_email=NOTIFY_EMAIL,
             )
             logger.info("Notification email sent")
