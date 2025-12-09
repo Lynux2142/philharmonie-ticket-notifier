@@ -1,4 +1,5 @@
 FROM python:3.12-alpine
+ENV TZ="Europe/Paris"
 WORKDIR /app
 COPY pyproject.toml .
 RUN pip install --no-cache-dir .
