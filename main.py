@@ -19,7 +19,7 @@ URLs = [
     ),
     (
         "https://bourseauxbillets.philharmoniedeparis.fr/list/events",
-        "https://bourseauxbillets.philharmoniedeparis.fr/selection/resale/item?performanceId={}",
+        "https://bourseauxbillets.philharmoniedeparis.fr/selection/event/date?productId={}"
     ),
 ]
 EMAIL_PASSWORD = getenv("EMAIL_PASSWORD")
@@ -103,7 +103,6 @@ def main():
                 to_email=NOTIFY_EMAIL,
             )
             logger.info("Notification email sent")
-            break
 
 
 if __name__ == "__main__":
