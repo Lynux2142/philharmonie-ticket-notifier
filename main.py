@@ -103,6 +103,7 @@ def main():
                 to_email=NOTIFY_EMAIL,
             )
             logger.info("Notification email sent")
+    driver.quit()
 
 
 if __name__ == "__main__":
