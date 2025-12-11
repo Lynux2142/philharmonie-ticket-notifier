@@ -86,6 +86,7 @@ def main():
             logger.info("Element found")
         except TimeoutException:
             logger.error("Loading took too much time!")
+            continue
 
         logger.info("Parsing page source ...")
         soup = BeautifulSoup(driver.page_source, "html.parser")
