@@ -8,7 +8,7 @@ This script send email notifications when tickets for a specified concert at the
 ## Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Lynux2142/philharmonie-ticket-notifier.git
+    git clone --branch=go_version https://github.com/Lynux2142/philharmonie-ticket-notifier.git
     cd philharmonie-ticket-notifier
     ```
 ## Configuration
@@ -23,7 +23,6 @@ This script send email notifications when tickets for a specified concert at the
 - `EMAIL_PASSWORD`: The password for the email account used to send notifications (preferably an app password).
 - `NOTIFY_EMAIL`: Comma-separated list of email addresses to notify.
 - `SELENIUM_URL`: The URL of the Selenium WebDriver server.
-- `WAIT_TIMEOUT`: Timeout in seconds for waiting for elements to load (default `5`).
 ## Usage
 1. From the sources:
     - Start a Selenium WebDriver server (e.g., using Docker):
