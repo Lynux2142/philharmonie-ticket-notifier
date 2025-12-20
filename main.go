@@ -35,21 +35,19 @@ func main() {
 	email_password := os.Getenv("EMAIL_PASSWORD")
 	notify_email := os.Getenv("NOTIFY_EMAIL")
 
-	driver := &WebDriver{
-		selenium_url: selenium_url,
-	}
-	if err := driver.Init(); err != nil {
+	driver, err := NewWebDriver(selenium_url)
+	if err != nil {
 		log.Printf("Failed to initialize WebDriver: %s", err)
 		return
 	}
 	defer driver.Quit()
 
-	smtp_client := &SmtpClient{
-		smtp_server:	"smtp.gmail.com",
-		sender:			sender_email,
-		password:		email_password,
-	}
-	if err := smtp_client.Init(); err != nil {
+	smtp_client, err := NewSmtpClient(
+		"smtp.gmail.com",
+		sender_email,
+		email_password,
+	)
+	if err != nil {
 		log.Printf("Failed to initialize SMTP client: %s", err)
 		return
 	}
@@ -57,6 +55,10 @@ func main() {
 
 	for _, website := range website_list {
 		available, err := driver.CheckTicketAvailability(website, ticket_id)
+		if err != nil {
+			log.Printf("Error checking ticket availability: %s", err)
+			continue
+		}
 		if !available {
 			log.Println("Concert sold out.")
 			continue

@@ -12,29 +12,30 @@ type WebDriver struct {
 	selenium_url string
 }
 
-func (wd *WebDriver) Init() error {
+func NewWebDriver(selenium_url string) (*WebDriver, error) {
+	wd := &WebDriver{
+		selenium_url: selenium_url,
+	}
 	caps := selenium.Capabilities{
 		"browserName": "firefox",
 	}
 	driver, err := selenium.NewRemote(caps, wd.selenium_url)
 	if err != nil {
-		return fmt.Errorf("connection to Selenium remote server failed: %w", err)
+		return nil, fmt.Errorf("connection to Selenium remote server failed: %w", err)
 	}
 	wd.driver = driver
-	return nil
+	return wd, nil
 }
 
 func (wd *WebDriver) CheckTicketAvailability(website website, ticket_id string) (bool, error) {
 	if err := wd.driver.Get(website.events_url); err != nil {
-		log.Printf("Failed to load page: %s", err)
-		return false, err
+		return false, fmt.Errorf("Failed to load page: %w", err)
 	}
 	log.Printf("Page open: %s\n", website.events_url)
 
 	prod, err := wd.driver.FindElement(selenium.ByID, fmt.Sprintf("prod_%s", ticket_id))
 	if err != nil {
-		log.Printf("Concert not found: %s", err)
-		return false, err
+		return false, fmt.Errorf("Concert not found: %w", err)
 	}
 	log.Println("Concert found.")
 
@@ -45,9 +46,9 @@ func (wd *WebDriver) CheckTicketAvailability(website website, ticket_id string) 
 		text, err := title.Text()
 		if err != nil {
 			log.Printf("Failed to get concert title text: %s", err)
-			return false, err
+		} else {
+			log.Printf("Concert Title: %s", text)
 		}
-		log.Printf("Concert Title: %s", text)
 	}
 
 	_, err = prod.FindElement(selenium.ByID, fmt.Sprintf("product_%s_book", ticket_id))

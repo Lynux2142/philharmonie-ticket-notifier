@@ -13,11 +13,16 @@ type SmtpClient struct {
 	password string
 }
 
-func (c *SmtpClient) Init() error {
+func NewSmtpClient(smtp_server, sender, password string) (*SmtpClient, error) {
+	c := &SmtpClient{
+		smtp_server: smtp_server,
+		sender:      sender,
+		password:    password,
+	}
 	var err error
 	c.client, err = smtp.Dial(c.smtp_server + ":587")
 	if err != nil {
-		return fmt.Errorf("failed to dial SMTP server: %w", err)
+		return nil, fmt.Errorf("failed to dial SMTP server: %w", err)
 	}
 	
 	tlsConfig := &tls.Config{
@@ -25,14 +30,14 @@ func (c *SmtpClient) Init() error {
 		ServerName:         c.smtp_server,
 	}
 	if err = c.client.StartTLS(tlsConfig); err != nil {
-		return fmt.Errorf("failed to start TLS: %w", err)
+		return nil, fmt.Errorf("failed to start TLS: %w", err)
 	}
 	
 	auth := smtp.PlainAuth("", c.sender, c.password, c.smtp_server)
 	if err = c.client.Auth(auth); err != nil {
-		return fmt.Errorf("failed to authenticate to SMTP server: %w", err)
+		return nil, fmt.Errorf("failed to authenticate to SMTP server: %w", err)
 	}
-	return nil
+	return c, nil
 }
 
 func (c *SmtpClient) SendMail(to []string, msg []byte) error {
