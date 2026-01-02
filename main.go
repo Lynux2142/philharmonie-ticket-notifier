@@ -60,10 +60,12 @@ func main() {
 			continue
 		}
 		if !available {
-			log.Println("Concert sold out.")
+			log.Println("Concert sold out")
 			continue
 		}
-		log.Println("Concert available")
+		log.Println("--------------------------")
+		log.Println("    Concert available")
+		log.Println("--------------------------")
 
 		msg := []byte("To: " + notify_email + "\r\n" +
 			"Subject: Concert Ticket Available!\r\n" +
