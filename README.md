@@ -35,7 +35,7 @@ This script send email notifications when tickets for a specified concert at the
         ```
     - Run the script:
         ```bash
-        go run ./main.go
+        go run ./main.go ./web_driver.go ./smtp_client.go
         ```
 2. From Docker:
     - Create a docker network:
