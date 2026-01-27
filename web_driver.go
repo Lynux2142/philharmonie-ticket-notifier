@@ -23,6 +23,9 @@ func NewWebDriver(selenium_url string) (*WebDriver, error) {
 	if err != nil {
 		return nil, fmt.Errorf("connection to Selenium remote server failed: %w", err)
 	}
+	if err := driver.SetImplicitWaitTimeout(10 * time.Second); err != nil {
+        return nil, fmt.Errorf("failed to set implicit wait: %w", err)
+    }
 	wd.driver = driver
 	return wd, nil
 }
